@@ -3,20 +3,31 @@ import './App.css';
 import styled from 'styled-components';
 
 function App() {
-  const MyStyledDiv = styled.div`
+  const Wrapper = styled.div`
     display: flex;
-    background: red;
-    font: 300;
-    font-style: italic;
+    flex-direction: row;
+    height: 100vh;
+    gap: 1rem;
+    padding: 1rem;
+  `;
+
+  const OptionsPane = styled.div`
+    flex: 1;
+    border-radius: 6px;
+    background-color: green;
+  `;
+
+  const VisualizationPane = styled.div`
+    flex: 3;
+    border-radius: 6px;
+    background-color: blue;
   `;
 
   return (
-    <>
-      <div>Hi</div>
-      <div>Hi again</div>
-      <div>Im a new project</div>
-      <MyStyledDiv>Im a styled div</MyStyledDiv>
-    </>
+    <Wrapper>
+      <OptionsPane></OptionsPane>
+      <VisualizationPane></VisualizationPane>
+    </Wrapper>
   );
 }
 
