@@ -1,3 +1,4 @@
+import mermaid from 'mermaid';
 import styled from 'styled-components';
 
 export default function VisualizationPanel() {
