@@ -15,10 +15,15 @@ function App() {
     background-color: rgb(236, 236, 236);
   `;
 
+  const chart = `
+    sequenceDiagram
+          A->>B: Hi
+  `
+
   return (
     <Wrapper>
       <OptionsPanel></OptionsPanel>
-      <VisualizationPanel></VisualizationPanel>
+      <VisualizationPanel chart={chart}></VisualizationPanel>
     </Wrapper>
   );
 }
