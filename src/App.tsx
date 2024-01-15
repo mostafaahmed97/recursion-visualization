@@ -1,8 +1,11 @@
 import './App.css';
 import '../app/globals.css';
 
+import { diagramFactorial, factorial, trace } from './viz/fact';
+
 import OptionsPanel from './components/OptionsPanel';
 import VisualizationPanel from './components/VisualizationPanel';
+import { generateDiagram } from './viz/common';
 import styled from 'styled-components';
 
 function App() {
@@ -15,10 +18,8 @@ function App() {
     background-color: rgb(236, 236, 236);
   `;
 
-  const chart = `
-    sequenceDiagram
-          A->>B: Hi
-  `
+  const chart = generateDiagram(diagramFactorial(3));
+  console.log(chart);
 
   return (
     <Wrapper>

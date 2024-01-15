@@ -8,6 +8,7 @@ import {
 import { Button } from './ui/button';
 import { Separator } from './ui/separator';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
+import { factorial } from '@/viz/fact';
 import styled from 'styled-components';
 
 export default function OptionsPanel() {
@@ -16,11 +17,10 @@ export default function OptionsPanel() {
     padding: 1rem;
     border-radius: 6px;
     background-color: #fafafa;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
   `;
-
-  const mockCode = `function fib(){
-    console.log('im a code snippet');
-  }`;
 
   return (
     <OptionsPanel>
@@ -38,8 +38,10 @@ export default function OptionsPanel() {
         </DropdownMenuContent>
       </DropdownMenu>
 
-      <SyntaxHighlighter language="typescript">{mockCode}</SyntaxHighlighter>
-      <Button className="my-2">Trace</Button>
+      <SyntaxHighlighter language="typescript">
+        {factorial.toString()}
+      </SyntaxHighlighter>
+      <Button className="mt-auto">Trace</Button>
     </OptionsPanel>
   );
 }
