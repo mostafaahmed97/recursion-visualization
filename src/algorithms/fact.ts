@@ -71,7 +71,7 @@ function factorialWithLogging(n: number, trace: Msg[]): number {
   return n * val;
 }
 
-export function diagramFactorial(num: number): Msg[] {
+export function tracedFactorial(num: number): Msg[] {
   const trace: Msg[] = [];
   factorialWithLogging(num, trace);
   return trace;

@@ -1,4 +1,4 @@
-import { Msg, generateDiagram } from './common';
+import { Msg, generateDiagram } from '../utils';
 
 type GraphNode = {
   id: number;

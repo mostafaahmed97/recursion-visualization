@@ -1,12 +1,12 @@
 import './App.css';
 import '../app/globals.css';
 
-import { diagramFactorial, factorial, trace } from './viz/fact';
-
 import OptionsPanel from './components/OptionsPanel';
 import VisualizationPanel from './components/VisualizationPanel';
-import { generateDiagram } from './viz/common';
+import { generateDiagram } from './utils';
 import styled from 'styled-components';
+import { tracedFactorial } from './algorithms/fact';
+import { useState } from 'react';
 
 function App() {
   const Wrapper = styled.div`
@@ -18,12 +18,16 @@ function App() {
     background-color: rgb(236, 236, 236);
   `;
 
-  const chart = generateDiagram(diagramFactorial(3));
-  console.log(chart);
+  const [factorialArg, setFactorialArg] = useState(3);
+  const chart = generateDiagram(tracedFactorial(factorialArg));
+  console.log({ factorialArg });
 
   return (
     <Wrapper>
-      <OptionsPanel></OptionsPanel>
+      <OptionsPanel
+        val={factorialArg}
+        onChange={setFactorialArg}
+      ></OptionsPanel>
       <VisualizationPanel chart={chart}></VisualizationPanel>
     </Wrapper>
   );

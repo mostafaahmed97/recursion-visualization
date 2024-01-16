@@ -32,7 +32,6 @@ export function generateDiagram(trace: Msg[]): string {
     if (!actors.includes(actor)) {
       diagram += `create participant ${actor} \n`;
       actors.push(actor);
-      console.log({ actors });
     }
 
     match(evt)

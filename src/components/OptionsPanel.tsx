@@ -8,10 +8,10 @@ import {
 import { Button } from './ui/button';
 import { Separator } from './ui/separator';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
-import { factorial } from '@/viz/fact';
+import { factorial } from '@/algorithms/fact';
 import styled from 'styled-components';
 
-export default function OptionsPanel() {
+export default function OptionsPanel(props: any) {
   const OptionsPanel = styled.div`
     flex: 1;
     padding: 1rem;
@@ -30,13 +30,22 @@ export default function OptionsPanel() {
 
       <Separator className="my-2" />
 
-      <DropdownMenu>
+      <input
+        type="text"
+        onChange={e => {
+          console.log({ props });
+          props.onChange(parseInt(e.target.value));
+        }}
+        value={props.val}
+      />
+
+      {/* <DropdownMenu>
         <DropdownMenuTrigger className="my-2">Algorithms</DropdownMenuTrigger>
         <DropdownMenuContent>
           <DropdownMenuItem>Fibonacci</DropdownMenuItem>
           <DropdownMenuItem>Merge Sort</DropdownMenuItem>
         </DropdownMenuContent>
-      </DropdownMenu>
+      </DropdownMenu> */}
 
       <SyntaxHighlighter language="typescript">
         {factorial.toString()}
