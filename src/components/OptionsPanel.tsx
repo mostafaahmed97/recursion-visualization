@@ -4,12 +4,17 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from './ui/dropdown-menu';
+import {
+  VisualizationContext,
+  VisualizationDispatchContext,
+} from './VisualizationProvider';
 
 import { Button } from './ui/button';
 import { Separator } from './ui/separator';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { factorial } from '@/algorithms/fact';
 import styled from 'styled-components';
+import { useContext } from 'react';
 
 export default function OptionsPanel(props: any) {
   const OptionsPanel = styled.div`
@@ -22,12 +27,15 @@ export default function OptionsPanel(props: any) {
     height: 100%;
   `;
 
+  const vizCxt = useContext(VisualizationContext);
+  const vizdispatch = useContext(VisualizationDispatchContext);
   return (
     <OptionsPanel>
       <h1 className="scroll-m-20 text-xl font-extrabold tracking-tight lg:text-2xl">
         Recursion Visualizer
       </h1>
-
+      <h2>{vizCxt.test}</h2>
+      <button onClick={vizdispatch}>Testing dispatch</button>
       <Separator className="my-2" />
 
       <input

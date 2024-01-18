@@ -20,6 +20,7 @@ export default function VisualizationPanel(props: ComponentProps) {
     padding: 1rem;
     border-radius: 6px;
     background-color: #fafafa;
+    overflow: scroll;
   `;
 
   const mermaidOutputDiv = useRef(null);

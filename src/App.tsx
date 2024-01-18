@@ -3,6 +3,7 @@ import '../app/globals.css';
 
 import OptionsPanel from './components/OptionsPanel';
 import VisualizationPanel from './components/VisualizationPanel';
+import { Visualizationprovider } from './components/VisualizationProvider';
 import { generateDiagram } from './utils';
 import styled from 'styled-components';
 import { tracedFactorial } from './algorithms/fact';
@@ -24,11 +25,13 @@ function App() {
 
   return (
     <Wrapper>
-      <OptionsPanel
-        val={factorialArg}
-        onChange={setFactorialArg}
-      ></OptionsPanel>
-      <VisualizationPanel chart={chart}></VisualizationPanel>
+      <Visualizationprovider>
+        <OptionsPanel
+          val={factorialArg}
+          onChange={setFactorialArg}
+        ></OptionsPanel>
+        <VisualizationPanel chart={chart}></VisualizationPanel>
+      </Visualizationprovider>
     </Wrapper>
   );
 }
