@@ -2,6 +2,8 @@ import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
+  DropdownMenuRadioGroup,
+  DropdownMenuRadioItem,
   DropdownMenuTrigger,
 } from './ui/dropdown-menu';
 import {
@@ -24,19 +26,41 @@ export default function OptionsPanel(props: any) {
     background-color: #fafafa;
     display: flex;
     flex-direction: column;
+    align-items: start;
     height: 100%;
   `;
 
   const vizCxt = useContext(VisualizationContext);
-  const vizdispatch = useContext(VisualizationDispatchContext);
+  const vizDispatch = useContext(VisualizationDispatchContext);
+
   return (
     <OptionsPanel>
       <h1 className="scroll-m-20 text-xl font-extrabold tracking-tight lg:text-2xl">
         Recursion Visualizer
       </h1>
-      <h2>{vizCxt.test}</h2>
-      <button onClick={vizdispatch}>Testing dispatch</button>
       <Separator className="my-2" />
+
+      <DropdownMenu>
+        <DropdownMenuTrigger className="my-2">
+          <Button>Select Algorithm</Button>
+        </DropdownMenuTrigger>
+        <DropdownMenuContent>
+          <DropdownMenuRadioGroup
+            value={vizCxt.selectedAlgorithm}
+            onValueChange={value => console.log(value)}
+          >
+            {vizCxt.availableAlgorithms.map(algo => (
+              <DropdownMenuRadioItem value={algo.name}>
+                {algo.name}
+              </DropdownMenuRadioItem>
+            ))}
+          </DropdownMenuRadioGroup>
+        </DropdownMenuContent>
+      </DropdownMenu>
+
+      <SyntaxHighlighter language="typescript">
+        {vizCxt.displayCode}
+      </SyntaxHighlighter>
 
       <input
         type="text"
@@ -47,17 +71,6 @@ export default function OptionsPanel(props: any) {
         value={props.val}
       />
 
-      {/* <DropdownMenu>
-        <DropdownMenuTrigger className="my-2">Algorithms</DropdownMenuTrigger>
-        <DropdownMenuContent>
-          <DropdownMenuItem>Fibonacci</DropdownMenuItem>
-          <DropdownMenuItem>Merge Sort</DropdownMenuItem>
-        </DropdownMenuContent>
-      </DropdownMenu> */}
-
-      <SyntaxHighlighter language="typescript">
-        {factorial.toString()}
-      </SyntaxHighlighter>
       <Button className="mt-auto">Trace</Button>
     </OptionsPanel>
   );

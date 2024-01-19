@@ -1,13 +1,21 @@
 import { DispatchWithoutAction, createContext, useReducer } from 'react';
 
+import { algorithms } from '../algorithms';
+
 type State = {
-  test: number;
+  displayCode: string;
+  availableAlgorithms: typeof algorithms;
+  selectedAlgorithm: string;
 };
 
-const initialState: State = { test: 1 };
+const initialState: State = {
+  selectedAlgorithm: algorithms[0].name,
+  displayCode: algorithms[0].displayCode,
+  availableAlgorithms: algorithms,
+};
 
 function myReducer(oldState: State) {
-  return { test: oldState.test + 1 };
+  return oldState;
 }
 
 export const VisualizationContext = createContext<State>(initialState);
