@@ -1,7 +1,7 @@
 import './App.css';
 import '../app/globals.css';
 
-import OptionsPanel from './components/OptionsPanel';
+import OptionsPane from './components/options-pane/OptionsPane';
 import VisualizationPanel from './components/VisualizationPanel';
 import { Visualizationprovider } from './components/VisualizationProvider';
 import { generateDiagram } from './utils';
@@ -12,6 +12,7 @@ import { useState } from 'react';
 function App() {
   const Wrapper = styled.div`
     display: flex;
+    grid-template-columns: 40vw 60vw;
     flex-direction: row;
     height: 100vh;
     gap: 1rem;
@@ -19,17 +20,13 @@ function App() {
     background-color: rgb(236, 236, 236);
   `;
 
-  const [factorialArg, setFactorialArg] = useState(3);
+  const [factorialArg, _] = useState(3);
   const chart = generateDiagram(tracedFactorial(factorialArg));
-  console.log({ factorialArg });
 
   return (
     <Wrapper>
       <Visualizationprovider>
-        <OptionsPanel
-          val={factorialArg}
-          onChange={setFactorialArg}
-        ></OptionsPanel>
+        <OptionsPane></OptionsPane>
         <VisualizationPanel chart={chart}></VisualizationPanel>
       </Visualizationprovider>
     </Wrapper>

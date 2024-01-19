@@ -10,9 +10,9 @@ export const algorithms = [
   {
     name: 'Merge Sort',
     displayCode: `
-      ${mergeSort.toString()}
+  ${mergeSort.toString()}
       
-      ${mergeSortedLists.toString()}
+  ${mergeSortedLists.toString()}
     `,
     tracedFunc: tracedMergeSort,
   },

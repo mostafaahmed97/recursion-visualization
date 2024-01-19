@@ -1,4 +1,4 @@
-import { DispatchWithoutAction, createContext, useReducer } from 'react';
+import { Dispatch, createContext, useReducer } from 'react';
 
 import { algorithms } from '../algorithms';
 
@@ -14,13 +14,27 @@ const initialState: State = {
   availableAlgorithms: algorithms,
 };
 
-function myReducer(oldState: State) {
-  return oldState;
+type UpdateSelectedAlgorithmAction = {
+  type: 'update_selection';
+  algorithmName: string;
+};
+
+type DispatchAction = UpdateSelectedAlgorithmAction;
+
+function myReducer(oldState: State, payload: DispatchAction): State {
+  const newAlg = algorithms.find(a => a.name == payload.algorithmName);
+  if (!newAlg) return oldState;
+
+  return {
+    ...oldState,
+    selectedAlgorithm: newAlg.name,
+    displayCode: newAlg.displayCode,
+  };
 }
 
 export const VisualizationContext = createContext<State>(initialState);
 export const VisualizationDispatchContext = createContext(
-  {} as DispatchWithoutAction
+  {} as Dispatch<DispatchAction>
 );
 
 export function Visualizationprovider(props: any) {
