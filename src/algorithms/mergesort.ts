@@ -1,8 +1,35 @@
-import { Msg, generateDiagram } from '../utils';
+import { Msg } from '../utils';
 
-const trace: Msg[] = [];
+export function mergeSort(input: number[]) {
+  if (input.length <= 1) {
+    return input;
+  }
 
-function mergeSort(input: number[]): number[] {
+  const listA = input.slice(0, Math.ceil(input.length / 2));
+  const listB = input.slice(listA.length, input.length);
+
+  const sortedListA = mergeSort(listA);
+  const sortedListB = mergeSort(listB);
+
+  const mergedLists = mergeSortedLists(sortedListA, sortedListB);
+  return mergedLists;
+}
+
+export function mergeSortedLists(listA: number[], listB: number[]) {
+  const merged: number[] = [];
+
+  while (listA.length && listB.length) {
+    if (listA[0] <= listB[0]) merged.push(listA.shift() as number);
+    else merged.push(listB.shift() as number);
+  }
+
+  while (listA.length > 0) merged.push(listA.shift() as number);
+  while (listB.length > 0) merged.push(listB.shift() as number);
+
+  return merged;
+}
+
+function mergeSortWithLogging(input: number[], trace: Msg[]): number[] {
   const actor = `mergeSort( [${input.join('-')}] )`;
 
   if (input.length <= 1) {
@@ -24,7 +51,7 @@ function mergeSort(input: number[]): number[] {
     callee: `mergeSort( [${listA.join('-')}] )`,
     arguments: 'Sorting List A',
   });
-  const sortedListA = mergeSort(listA);
+  const sortedListA = mergeSortWithLogging(listA, trace);
 
   trace.push({
     type: 'call',
@@ -32,7 +59,7 @@ function mergeSort(input: number[]): number[] {
     callee: `mergeSort( [${listB.join('-')}] )`,
     arguments: 'Sorting List B',
   });
-  const sortedListB = mergeSort(listB);
+  const sortedListB = mergeSortWithLogging(listB, trace);
 
   trace.push({
     type: 'call',
@@ -42,13 +69,21 @@ function mergeSort(input: number[]): number[] {
     )}] )`,
     arguments: 'Sorting List B',
   });
-  const mergedLists = sortedMerge(sortedListA, sortedListB);
+  const mergedLists = mergeSortedListsWithLogging(
+    sortedListA,
+    sortedListB,
+    trace
+  );
 
   trace.push({ type: 'return', actor, value: 'returning from subgraph' });
   return mergedLists;
 }
 
-function sortedMerge(listA: number[], listB: number[]): number[] {
+function mergeSortedListsWithLogging(
+  listA: number[],
+  listB: number[],
+  trace: Msg[]
+): number[] {
   const actor = `sortedMerge( [ ${listA.join('-')} - ${listB.join('-')}] )`;
   trace.push({ type: 'output', actor, msg: 'merging A & B' });
   const merged: number[] = [];
@@ -65,5 +100,8 @@ function sortedMerge(listA: number[], listB: number[]): number[] {
   return merged;
 }
 
-console.log(mergeSort([1, 5, 3]));
-console.log(generateDiagram(trace));
+export function tracedMergeSort(input: number[]) {
+  const trace: Msg[] = [];
+  mergeSortWithLogging(input, trace);
+  return trace;
+}
