@@ -8,6 +8,10 @@ type FactorialOptions = {
   n: number;
 };
 
+type MergeSortOptions = {
+  numbers: number[];
+};
+
 type State = {
   displayCode: string;
   availableAlgorithms: typeof algorithms;
@@ -15,6 +19,7 @@ type State = {
   steps: Msg[];
   generatedDiagram: string;
   factorialOptions: FactorialOptions;
+  mergeSortOptions: MergeSortOptions;
 };
 
 const initialState: State = {
@@ -24,6 +29,7 @@ const initialState: State = {
   steps: [],
   generatedDiagram: 'sequenceDiagram',
   factorialOptions: { n: 3 },
+  mergeSortOptions: { numbers: [] },
 };
 
 type StartTraceAction = {
@@ -40,10 +46,16 @@ type UpdateFactorialOptions = {
   n: number;
 };
 
+type UpdateMergeSortOptions = {
+  type: 'update_mergesort_options';
+  numbersList: string;
+};
+
 type DispatchAction =
   | StartTraceAction
   | UpdateSelectedAlgorithmAction
-  | UpdateFactorialOptions;
+  | UpdateFactorialOptions
+  | UpdateMergeSortOptions;
 
 function myReducer(oldState: State, payload: DispatchAction): State {
   const newState = match(payload)
@@ -63,6 +75,23 @@ function myReducer(oldState: State, payload: DispatchAction): State {
         factorialOptions: { n: matched.n },
       };
     })
+    .with({ type: 'update_mergesort_options' }, matched => {
+      console.log({ matched });
+      try {
+        const strippedNumbers = matched.numbersList
+          .trim()
+          .replace(' ', '')
+          .split(',');
+        const numbers = strippedNumbers.map(n => Number(n));
+
+        return {
+          ...oldState,
+          mergeSortOptions: { numbers },
+        };
+      } catch (error) {
+        return oldState;
+      }
+    })
     .with({ type: 'start_trace' }, () => {
       const alg = algorithms.find(a => a.name == oldState.selectedAlgorithm);
       if (!alg) return oldState;
@@ -80,7 +109,7 @@ function myReducer(oldState: State, payload: DispatchAction): State {
       };
     })
     .otherwise(() => oldState);
-  console.log({ newState });
+
   return newState;
 }
 
