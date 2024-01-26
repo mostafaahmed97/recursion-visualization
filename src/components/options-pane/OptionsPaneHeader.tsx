@@ -11,8 +11,8 @@ export function OptionsPaneHeader() {
   const vizDispatch = useContext(VisualizationDispatchContext);
 
   return (
-    <div className="flex flex-row items-center">
-      <h1>Title</h1>
+    <div className="flex flex-row items-center w-full">
+      <h1 className="font-bold text-lg">Recursion Visualizer</h1>
       <AlgorithmSelection></AlgorithmSelection>
     </div>
   );

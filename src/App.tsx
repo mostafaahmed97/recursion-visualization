@@ -4,10 +4,7 @@ import '../app/globals.css';
 import OptionsPane from './components/options-pane/OptionsPane';
 import VisualizationPanel from './components/VisualizationPanel';
 import { Visualizationprovider } from './components/VisualizationProvider';
-import { generateDiagram } from './utils';
 import styled from 'styled-components';
-import { tracedFactorial } from './algorithms/fact';
-import { useState } from 'react';
 
 function App() {
   const Wrapper = styled.div`
@@ -20,14 +17,11 @@ function App() {
     background-color: rgb(236, 236, 236);
   `;
 
-  const [factorialArg, _] = useState(3);
-  const chart = generateDiagram(tracedFactorial(factorialArg));
-
   return (
     <Wrapper>
       <Visualizationprovider>
         <OptionsPane></OptionsPane>
-        <VisualizationPanel chart={chart}></VisualizationPanel>
+        <VisualizationPanel></VisualizationPanel>
       </Visualizationprovider>
     </Wrapper>
   );

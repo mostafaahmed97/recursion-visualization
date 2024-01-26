@@ -1,17 +1,33 @@
 import { Dispatch, createContext, useReducer } from 'react';
+import { Msg, generateDiagram } from '@/utils';
 
 import { algorithms } from '../algorithms';
+import { match } from 'ts-pattern';
+
+type FactorialOptions = {
+  n: number;
+};
 
 type State = {
   displayCode: string;
   availableAlgorithms: typeof algorithms;
   selectedAlgorithm: string;
+  steps: Msg[];
+  generatedDiagram: string;
+  factorialOptions: FactorialOptions;
 };
 
 const initialState: State = {
   selectedAlgorithm: algorithms[0].name,
   displayCode: algorithms[0].displayCode,
   availableAlgorithms: algorithms,
+  steps: [],
+  generatedDiagram: 'sequenceDiagram',
+  factorialOptions: { n: 3 },
+};
+
+type StartTraceAction = {
+  type: 'start_trace';
 };
 
 type UpdateSelectedAlgorithmAction = {
@@ -19,20 +35,57 @@ type UpdateSelectedAlgorithmAction = {
   algorithmName: string;
 };
 
-type DispatchAction = UpdateSelectedAlgorithmAction;
+type UpdateFactorialOptions = {
+  type: 'update_factorial_options';
+  n: number;
+};
+
+type DispatchAction =
+  | StartTraceAction
+  | UpdateSelectedAlgorithmAction
+  | UpdateFactorialOptions;
 
 function myReducer(oldState: State, payload: DispatchAction): State {
-  const newAlg = algorithms.find(a => a.name == payload.algorithmName);
-  if (!newAlg) return oldState;
+  const newState = match(payload)
+    .with({ type: 'update_selection' }, matched => {
+      const newAlg = algorithms.find(a => a.name == matched.algorithmName);
+      if (!newAlg) return oldState;
 
-  return {
-    ...oldState,
-    selectedAlgorithm: newAlg.name,
-    displayCode: newAlg.displayCode,
-  };
+      return {
+        ...oldState,
+        selectedAlgorithm: newAlg.name,
+        displayCode: newAlg.displayCode,
+      };
+    })
+    .with({ type: 'update_factorial_options' }, matched => {
+      return {
+        ...oldState,
+        factorialOptions: { n: matched.n },
+      };
+    })
+    .with({ type: 'start_trace' }, () => {
+      const alg = algorithms.find(a => a.name == oldState.selectedAlgorithm);
+      if (!alg) return oldState;
+
+      const args = oldState.factorialOptions;
+      const trace = alg.tracedFunc(args.n);
+      const generatedDiagram = generateDiagram(trace);
+
+      console.log({ trace, generatedDiagram });
+
+      return {
+        ...oldState,
+        steps: trace,
+        generatedDiagram,
+      };
+    })
+    .otherwise(() => oldState);
+  console.log({ newState });
+  return newState;
 }
 
 export const VisualizationContext = createContext<State>(initialState);
+
 export const VisualizationDispatchContext = createContext(
   {} as Dispatch<DispatchAction>
 );

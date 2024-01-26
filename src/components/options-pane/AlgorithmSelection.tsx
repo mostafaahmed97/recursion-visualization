@@ -19,8 +19,8 @@ export function AlgorithmSelection() {
 
   return (
     <DropdownMenu>
-      <DropdownMenuTrigger className="mx-auto my-2">
-        <Button>Select Algorithm</Button>
+      <DropdownMenuTrigger className="ml-auto my-2">
+        <Button size="sm">Select Algorithm</Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent>
         <DropdownMenuRadioGroup

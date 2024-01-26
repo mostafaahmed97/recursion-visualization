@@ -11,8 +11,10 @@ import styled from 'styled-components';
 import { useContext } from 'react';
 
 export default function OptionsPanel(props: any) {
-  const OptionsPanel = styled.div`
-    flex: 1;
+  const OptionsPane = styled.div`
+    flex-grow: 0;
+    flex-shrink: 0;
+    flex-basis: 33%;
     padding: 1rem;
     border-radius: 6px;
     background-color: #fafafa;
@@ -20,24 +22,34 @@ export default function OptionsPanel(props: any) {
     flex-direction: column;
     align-items: start;
     height: 100%;
-    width: 40vw;
+    max-width: 33%;
   `;
 
   const vizCxt = useContext(VisualizationContext);
   const vizDispatch = useContext(VisualizationDispatchContext);
 
   return (
-    <OptionsPanel className="flex-col max-w-3xl">
+    <OptionsPane className="flex-col max-w-3xl">
       <OptionsPaneHeader></OptionsPaneHeader>
+
       <Separator className="my-2" />
 
       <SelectedAlgorithmDisplay></SelectedAlgorithmDisplay>
 
       <Separator className="my-2" />
 
-      <div>
-        <Button>Trace</Button>
+      <div className="w-full">
+        <Button
+          className="w-full"
+          onClick={() =>
+            vizDispatch({
+              type: 'start_trace',
+            })
+          }
+        >
+          Trace
+        </Button>
       </div>
-    </OptionsPanel>
+    </OptionsPane>
   );
 }
