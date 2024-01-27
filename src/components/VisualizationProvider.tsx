@@ -10,6 +10,7 @@ type FactorialOptions = {
 
 type MergeSortOptions = {
   numbers: number[];
+  rawInput: string;
 };
 
 type State = {
@@ -29,7 +30,7 @@ const initialState: State = {
   steps: [],
   generatedDiagram: 'sequenceDiagram',
   factorialOptions: { n: 3 },
-  mergeSortOptions: { numbers: [] },
+  mergeSortOptions: { numbers: [], rawInput: '' },
 };
 
 type StartTraceAction = {
@@ -48,7 +49,7 @@ type UpdateFactorialOptions = {
 
 type UpdateMergeSortOptions = {
   type: 'update_mergesort_options';
-  numbersList: string;
+  rawListInput: string;
 };
 
 type DispatchAction =
@@ -76,31 +77,41 @@ function myReducer(oldState: State, payload: DispatchAction): State {
       };
     })
     .with({ type: 'update_mergesort_options' }, matched => {
-      console.log({ matched });
       try {
-        const strippedNumbers = matched.numbersList
+        const strippedNumbers = matched.rawListInput
           .trim()
           .replace(' ', '')
           .split(',');
+
         const numbers = strippedNumbers.map(n => Number(n));
 
         return {
           ...oldState,
-          mergeSortOptions: { numbers },
+          mergeSortOptions: { numbers, rawInput: matched.rawListInput },
         };
       } catch (error) {
-        return oldState;
+        return {
+          ...oldState,
+          mergeSortOptions: {
+            ...oldState.mergeSortOptions,
+            rawInput: matched.rawListInput,
+          },
+        };
       }
     })
     .with({ type: 'start_trace' }, () => {
       const alg = algorithms.find(a => a.name == oldState.selectedAlgorithm);
       if (!alg) return oldState;
 
-      const args = oldState.factorialOptions;
-      const trace = alg.tracedFunc(args.n);
-      const generatedDiagram = generateDiagram(trace);
+      // TODO: Improve this for future algorithms
+      const args =
+        oldState.selectedAlgorithm == 'Factorial'
+          ? oldState.factorialOptions.n
+          : oldState.mergeSortOptions.numbers;
 
-      console.log({ trace, generatedDiagram });
+      console.log({ args });
+      const trace = alg.tracedFunc(args);
+      const generatedDiagram = generateDiagram(trace);
 
       return {
         ...oldState,

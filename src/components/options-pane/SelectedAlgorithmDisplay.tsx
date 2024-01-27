@@ -14,7 +14,6 @@ export function SelectedAlgorithmDisplay() {
   const vizDispatch = useContext(VisualizationDispatchContext);
 
   const { selectedAlgorithm } = vizCxt;
-  console.log('re rendering SelectedAlgorithmDisplay.tsx');
 
   return (
     <div
