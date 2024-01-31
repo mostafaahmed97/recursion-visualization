@@ -17,3 +17,5 @@ export const algorithms = [
     tracedFunc: tracedMergeSort,
   },
 ];
+
+export const availableAlgorithms = ['Factorial', 'Merge Sort'];

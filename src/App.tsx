@@ -19,10 +19,8 @@ function App() {
 
   return (
     <Wrapper>
-      <Visualizationprovider>
-        <OptionsPane></OptionsPane>
-        <VisualizationPanel></VisualizationPanel>
-      </Visualizationprovider>
+      <OptionsPane></OptionsPane>
+      <VisualizationPanel></VisualizationPanel>
     </Wrapper>
   );
 }

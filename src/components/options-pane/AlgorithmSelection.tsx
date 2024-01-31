@@ -5,17 +5,20 @@ import {
   DropdownMenuRadioItem,
   DropdownMenuTrigger,
 } from '../ui/dropdown-menu';
-import {
-  VisualizationContext,
-  VisualizationDispatchContext,
-} from '../VisualizationProvider';
+import { RootState, selectedAlgorithm, updateSelection } from '@/store';
+import { useDispatch, useSelector } from 'react-redux';
 
 import { Button } from '../ui/button';
-import { useContext } from 'react';
 
 export function AlgorithmSelection() {
-  const vizCxt = useContext(VisualizationContext);
-  const vizDispatch = useContext(VisualizationDispatchContext);
+  const selectedAlgorithm = useSelector(
+    (state: RootState) => state.algorithmSelection.selectedAlgorithm
+  );
+  const availableAlgorithms = useSelector(
+    (state: RootState) => state.algorithmSelection.availableAlgorithms
+  );
+
+  const dispatch = useDispatch();
 
   return (
     <DropdownMenu>
@@ -24,15 +27,13 @@ export function AlgorithmSelection() {
       </DropdownMenuTrigger>
       <DropdownMenuContent>
         <DropdownMenuRadioGroup
-          value={vizCxt.selectedAlgorithm}
+          value={selectedAlgorithm}
           onValueChange={value =>
-            vizDispatch({ type: 'update_selection', algorithmName: value })
+            dispatch(updateSelection({ selectedAlg: value }))
           }
         >
-          {vizCxt.availableAlgorithms.map(algo => (
-            <DropdownMenuRadioItem value={algo.name}>
-              {algo.name}
-            </DropdownMenuRadioItem>
+          {availableAlgorithms.map(alg => (
+            <DropdownMenuRadioItem value={alg}>{alg}</DropdownMenuRadioItem>
           ))}
         </DropdownMenuRadioGroup>
       </DropdownMenuContent>
