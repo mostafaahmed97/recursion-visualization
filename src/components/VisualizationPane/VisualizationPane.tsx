@@ -2,7 +2,7 @@ import * as d3 from 'd3';
 
 import { useContext, useEffect } from 'react';
 
-import { VisualizationContext } from './VisualizationProvider';
+import { VisualizationContext } from '../VisualizationProvider';
 import mermaid from 'mermaid';
 import styled from 'styled-components';
 
@@ -13,7 +13,7 @@ mermaid.initialize({
   fontFamily: 'monospace',
 });
 
-export default function VisualizationPanel() {
+export default function VisualizationPane() {
   const VisualizationPanel = styled.div`
     flex-grow: 0;
     flex-shrink: 0;

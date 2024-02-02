@@ -1,9 +1,8 @@
 import './App.css';
 import '../app/globals.css';
 
-import OptionsPane from './components/options-pane/OptionsPane';
-import VisualizationPanel from './components/VisualizationPanel';
-import { Visualizationprovider } from './components/VisualizationProvider';
+import OptionsPane from './components/OptionsPane/OptionsPane';
+import VisualizationPane from './components/VisualizationPane/VisualizationPane';
 import styled from 'styled-components';
 
 function App() {
@@ -20,7 +19,7 @@ function App() {
   return (
     <Wrapper>
       <OptionsPane></OptionsPane>
-      <VisualizationPanel></VisualizationPanel>
+      <VisualizationPane></VisualizationPane>
     </Wrapper>
   );
 }

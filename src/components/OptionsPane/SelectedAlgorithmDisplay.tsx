@@ -1,4 +1,7 @@
-import { FactorialOptions, MergeSortOptions } from './algorithm-options';
+import {
+  FactorialOptions,
+  MergeSortOptions,
+} from './SelectedAlgorithm/AlgorithmOptions';
 import {
   VisualizationContext,
   VisualizationDispatchContext,

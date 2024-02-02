@@ -4,13 +4,13 @@ import {
   DropdownMenuRadioGroup,
   DropdownMenuRadioItem,
   DropdownMenuTrigger,
-} from '../ui/dropdown-menu';
+} from '../../ui/dropdown-menu';
 import { RootState, selectedAlgorithm, updateSelection } from '@/store';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { Button } from '../ui/button';
+import { Button } from '../../ui/button';
 
-export function AlgorithmSelection() {
+export function AlgorithmPicker() {
   const selectedAlgorithm = useSelector(
     (state: RootState) => state.algorithmSelection.selectedAlgorithm
   );
