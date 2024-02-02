@@ -4,19 +4,19 @@ import {
   DropdownMenuRadioGroup,
   DropdownMenuRadioItem,
   DropdownMenuTrigger,
-} from '../../ui/dropdown-menu';
-import { RootState, selectedAlgorithm, updateSelection } from '@/store';
+} from '@/components/ui/dropdown-menu';
+import {
+  availableAlgs,
+  selectedAlgorithm,
+  updateSelection,
+} from '@/components/OptionsPane/optionsPaneSlice';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { Button } from '../../ui/button';
+import { Button } from '@/components/ui/button';
 
 export function AlgorithmPicker() {
-  const selectedAlgorithm = useSelector(
-    (state: RootState) => state.algorithmSelection.selectedAlgorithm
-  );
-  const availableAlgorithms = useSelector(
-    (state: RootState) => state.algorithmSelection.availableAlgorithms
-  );
+  const currentSelection = useSelector(selectedAlgorithm);
+  const options = useSelector(availableAlgs);
 
   const dispatch = useDispatch();
 
@@ -27,12 +27,10 @@ export function AlgorithmPicker() {
       </DropdownMenuTrigger>
       <DropdownMenuContent>
         <DropdownMenuRadioGroup
-          value={selectedAlgorithm}
-          onValueChange={value =>
-            dispatch(updateSelection({ selectedAlg: value }))
-          }
+          value={currentSelection}
+          onValueChange={value => dispatch(updateSelection(value))}
         >
-          {availableAlgorithms.map(alg => (
+          {options.map(alg => (
             <DropdownMenuRadioItem value={alg}>{alg}</DropdownMenuRadioItem>
           ))}
         </DropdownMenuRadioGroup>

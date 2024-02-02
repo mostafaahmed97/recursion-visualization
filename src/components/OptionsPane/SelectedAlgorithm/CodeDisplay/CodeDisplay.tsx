@@ -1,6 +1,10 @@
 import SyntaxHighlighter from 'react-syntax-highlighter/dist/esm/default-highlight';
+import { displayCode } from '../../optionsPaneSlice';
+import { useSelector } from 'react-redux';
 
 export function CodeDisplay() {
+  const code = useSelector(displayCode);
+
   return (
     <div>
       <h3 className="text-base font-bold my-2">Code</h3>
@@ -10,7 +14,7 @@ export function CodeDisplay() {
           wrapLines={true}
           language="typescript"
         >
-          const x = 21;
+          {code}
         </SyntaxHighlighter>
       </div>
     </div>

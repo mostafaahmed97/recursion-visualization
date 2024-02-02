@@ -1,16 +1,10 @@
-import {
-  VisualizationContext,
-  VisualizationDispatchContext,
-} from '../VisualizationProvider';
-
-import { Button } from '../ui/button';
-import { OptionsPaneHeader } from './OptionsPaneHeader';
-import { SelectedAlgorithmDisplay } from './SelectedAlgorithmDisplay';
+import { OptionsPaneHeader } from './Header/OptionsPaneHeader';
+import { SelectedAlgorithmDisplay } from './SelectedAlgorithm/SelectedAlgorithm';
 import { Separator } from '../ui/separator';
+import { TracingTrigger } from './TracingTrigger/TraceTrigger';
 import styled from 'styled-components';
-import { useContext } from 'react';
 
-export default function OptionsPanel(props: any) {
+export default function OptionsPanel() {
   const OptionsPane = styled.div`
     flex-grow: 0;
     flex-shrink: 0;
@@ -25,9 +19,6 @@ export default function OptionsPanel(props: any) {
     max-width: 33%;
   `;
 
-  const vizCxt = useContext(VisualizationContext);
-  const vizDispatch = useContext(VisualizationDispatchContext);
-
   return (
     <OptionsPane className="flex-col max-w-3xl">
       <OptionsPaneHeader></OptionsPaneHeader>
@@ -38,18 +29,7 @@ export default function OptionsPanel(props: any) {
 
       <Separator className="my-2" />
 
-      <div className="w-full">
-        <Button
-          className="w-full"
-          onClick={() =>
-            vizDispatch({
-              type: 'start_trace',
-            })
-          }
-        >
-          Trace
-        </Button>
-      </div>
+      <TracingTrigger></TracingTrigger>
     </OptionsPane>
   );
 }
