@@ -1,14 +1,12 @@
-import {
-  VisualizationContext,
-  VisualizationDispatchContext,
-} from '@/components/VisualizationProvider';
+import { useDispatch, useSelector } from 'react-redux';
 
 import { Input } from '@/components/ui/input';
-import { useContext } from 'react';
+import { RootState } from '@/store';
+import { updateNumberList } from './mergeSortSlice';
 
 export function MergeSortOptions() {
-  const vizCxt = useContext(VisualizationContext);
-  const vizDispatch = useContext(VisualizationDispatchContext);
+  const dispatch = useDispatch();
+  const val = useSelector((state: RootState) => state.mergeSort.rawInput);
 
   return (
     <>
@@ -19,15 +17,8 @@ export function MergeSortOptions() {
       </p>
 
       <Input
-        key="mergesortinput"
-        value={vizCxt.mergeSortOptions.rawInput}
-        autoFocus={true}
-        onChange={event =>
-          vizDispatch({
-            type: 'update_mergesort_options',
-            rawListInput: event.target.value,
-          })
-        }
+        value={val}
+        onChange={event => dispatch(updateNumberList(event.target.value))}
       ></Input>
     </>
   );

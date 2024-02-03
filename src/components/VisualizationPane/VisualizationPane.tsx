@@ -1,10 +1,10 @@
 import * as d3 from 'd3';
 
-import { useContext, useEffect } from 'react';
-
-import { VisualizationContext } from '../VisualizationProvider';
+import { RootState } from '@/store';
 import mermaid from 'mermaid';
 import styled from 'styled-components';
+import { useEffect } from 'react';
+import { useSelector } from 'react-redux';
 
 mermaid.initialize({
   startOnLoad: true,
@@ -23,7 +23,10 @@ export default function VisualizationPane() {
     background-color: #fafafa;
     overflow: hidden;
   `;
-  const vizCxt = useContext(VisualizationContext);
+
+  const diagram = useSelector(
+    (state: RootState) => state.visualizationPane.diagram
+  );
 
   useEffect(() => {
     mermaid.contentLoaded();
@@ -31,10 +34,7 @@ export default function VisualizationPane() {
     (async () => {
       console.log('hi');
 
-      const { svg } = await mermaid.render(
-        'mermaid-div',
-        vizCxt.generatedDiagram
-      );
+      const { svg } = await mermaid.render('mermaid-div', diagram);
 
       d3.select('.mermaid-div').html(svg);
 
@@ -57,16 +57,13 @@ export default function VisualizationPane() {
 
   return (
     <VisualizationPanel>
-      {/* <pre className="mermaid">{vizCxt.generatedDiagram}</pre> */}
       <div
         style={{
           height: '100%',
           width: '100%',
         }}
         className="mermaid-div"
-      >
-        a
-      </div>
+      ></div>
     </VisualizationPanel>
   );
 }

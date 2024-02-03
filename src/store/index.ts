@@ -1,9 +1,15 @@
 import { configureStore } from '@reduxjs/toolkit';
+import { factorialSlice } from '@/components/OptionsPane/SelectedAlgorithm/AlgorithmOptions/FactorialOptions/factorialSlice';
+import { mergeSortSlice } from '@/components/OptionsPane/SelectedAlgorithm/AlgorithmOptions/MergeSortOptions/mergeSortSlice';
 import { optionsPaneSlice } from '@/components/OptionsPane/optionsPaneSlice';
+import { visualizationPaneSlice } from '@/components/VisualizationPane/visualizationPaneSlice';
 
 export const store = configureStore({
   reducer: {
+    visualizationPane: visualizationPaneSlice.reducer,
     optionsPane: optionsPaneSlice.reducer,
+    factorial: factorialSlice.reducer,
+    mergeSort: mergeSortSlice.reducer,
   },
 });
 

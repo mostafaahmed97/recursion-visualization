@@ -1,26 +1,19 @@
-import {
-  VisualizationContext,
-  VisualizationDispatchContext,
-} from '@/components/VisualizationProvider';
+import { useDispatch, useSelector } from 'react-redux';
 
 import { Input } from '@/components/ui/input';
-import { useContext } from 'react';
+import { RootState } from '@/store';
+import { updateN } from './factorialSlice';
 
 export function FactorialOptions() {
-  const vizCxt = useContext(VisualizationContext);
-  const vizDispatch = useContext(VisualizationDispatchContext);
+  const n = useSelector((state: RootState) => state.factorial.args.n);
+  const dispatch = useDispatch();
 
   return (
     <>
       <small className="text-gray-500">n</small>
       <Input
-        value={vizCxt.factorialOptions.n}
-        onChange={event =>
-          vizDispatch({
-            type: 'update_factorial_options',
-            n: parseInt(event.target.value),
-          })
-        }
+        value={n}
+        onChange={event => dispatch(updateN(event.target.value))}
       ></Input>
     </>
   );

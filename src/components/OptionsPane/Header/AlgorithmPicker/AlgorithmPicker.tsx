@@ -31,7 +31,9 @@ export function AlgorithmPicker() {
           onValueChange={value => dispatch(updateSelection(value))}
         >
           {options.map(alg => (
-            <DropdownMenuRadioItem value={alg}>{alg}</DropdownMenuRadioItem>
+            <DropdownMenuRadioItem key={alg} value={alg}>
+              {alg}
+            </DropdownMenuRadioItem>
           ))}
         </DropdownMenuRadioGroup>
       </DropdownMenuContent>
