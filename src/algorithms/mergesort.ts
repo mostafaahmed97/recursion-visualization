@@ -30,36 +30,64 @@ export function mergeSortedLists(listA: number[], listB: number[]) {
 }
 
 function mergeSortWithLogging(input: number[], trace: Msg[]): number[] {
-  const actor = `mergeSort( [${input.join('-')}] )`;
+  const actor = `mergeSort([${input.join(' | ')}])`;
 
   if (input.length <= 1) {
-    trace.push({ type: 'return', actor, value: 'Nothing to sort' });
+    trace.push({
+      type: 'output',
+      actor,
+      msg: 'nothing to sort | length = 1',
+    });
+
+    trace.push({
+      type: 'return',
+      actor,
+      value: '',
+    });
     return input;
   }
 
-  trace.push({ type: 'output', actor, msg: 'splitting' });
+  trace.push({
+    type: 'output',
+    actor,
+    msg: `splitting at index ${Math.ceil(input.length / 2)}`,
+  });
 
   const listA = input.slice(0, Math.ceil(input.length / 2));
-  trace.push({ type: 'output', actor, msg: `List A = [${listA.join('-')}]` });
+  trace.push({ type: 'output', actor, msg: `List A = [${listA.join(' | ')}]` });
 
   const listB = input.slice(listA.length, input.length);
-  trace.push({ type: 'output', actor, msg: `List B = [${listB.join('-')}]` });
+  trace.push({ type: 'output', actor, msg: `List B = [${listB.join(' | ')}]` });
 
   trace.push({
     type: 'call',
     actor: actor,
-    callee: `mergeSort( [${listA.join('-')}] )`,
+    callee: `mergeSort([${listA.join(' | ')}])`,
     arguments: 'Sorting List A',
   });
+
   const sortedListA = mergeSortWithLogging(listA, trace);
 
   trace.push({
+    type: 'output',
+    actor,
+    msg: 'sorting A done',
+  });
+
+  trace.push({
     type: 'call',
     actor: actor,
-    callee: `mergeSort( [${listB.join('-')}] )`,
+    callee: `mergeSort([${listB.join(' - ')}])`,
     arguments: 'Sorting List B',
   });
+
   const sortedListB = mergeSortWithLogging(listB, trace);
+
+  trace.push({
+    type: 'output',
+    actor,
+    msg: 'sorting B done',
+  });
 
   trace.push({
     type: 'call',
@@ -67,15 +95,26 @@ function mergeSortWithLogging(input: number[], trace: Msg[]): number[] {
     callee: `sortedMerge( [ ${sortedListA.join('-')} - ${sortedListB.join(
       '-'
     )}] )`,
-    arguments: 'Sorting List B',
+    arguments: 'merging sorted lists, A = [] B = []',
   });
+
   const mergedLists = mergeSortedListsWithLogging(
     sortedListA,
     sortedListB,
     trace
   );
 
-  trace.push({ type: 'return', actor, value: 'returning from subgraph' });
+  trace.push({
+    type: 'output',
+    actor,
+    msg: `returning merge sorted list = [${mergedLists.join(' | ')}]`,
+  });
+
+  trace.push({
+    type: 'return',
+    actor,
+    value: '',
+  });
   return mergedLists;
 }
 
