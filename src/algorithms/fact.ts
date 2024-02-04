@@ -1,36 +1,15 @@
-type Call = {
-  type: 'call';
-  actor: string;
-  callee: string;
-  arguments: string;
-};
-
-type Return = {
-  type: 'return';
-  actor: string;
-  value: string;
-};
-
-type Output = {
-  type: 'output';
-  actor: string;
-  msg: string;
-};
-
-type Msg = Call | Output | Return;
+import { Msg } from '@/utils';
 
 function factorialWithLogging(n: number, trace: Msg[]): number {
-  const actor = `fact(${n})`;
+  const actor = `factorial(${n})`;
 
   if (n == 1) {
-    // Output --> is base case
     trace.push({
       type: 'output',
       actor: actor,
-      msg: 'Is base case',
+      msg: 'is base case | n == 1',
     });
 
-    // Return
     trace.push({
       type: 'return',
       actor: actor,
@@ -39,30 +18,32 @@ function factorialWithLogging(n: number, trace: Msg[]): number {
     return 1;
   }
 
-  // Output
   trace.push({
     type: 'output',
     actor: actor,
-    msg: 'Not base case',
+    msg: 'not base case | n != 1',
   });
 
-  // Output
   trace.push({
     type: 'output',
     actor: actor,
-    msg: `Calling fact(${n} - 1)`,
+    msg: `val = n * factorial(${n} - 1)`,
   });
 
-  //   Call
   trace.push({
     type: 'call',
     actor: actor,
-    callee: `fact(${n - 1})`,
-    arguments: `${n} - 1`,
+    callee: `factorial(${n - 1})`,
+    arguments: `factorial(${n} - 1)`,
   });
   const val = factorialWithLogging(n - 1, trace);
 
-  // Return
+  trace.push({
+    type: 'output',
+    actor: actor,
+    msg: `return ${n} * factorial(${n - 1}) | ${n} * ${val} = ${n * val}`,
+  });
+
   trace.push({
     type: 'return',
     actor: actor,
