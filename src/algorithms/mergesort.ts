@@ -5,8 +5,10 @@ export function mergeSort(input: number[]) {
     return input;
   }
 
-  const listA = input.slice(0, Math.ceil(input.length / 2));
-  const listB = input.slice(listA.length, input.length);
+  const midIdx = Math.ceil(input.length / 2);
+
+  const listA = input.slice(0, midIdx);
+  const listB = input.slice(midIdx, input.length);
 
   const sortedListA = mergeSort(listA);
   const sortedListB = mergeSort(listB);
@@ -30,72 +32,55 @@ export function mergeSortedLists(listA: number[], listB: number[]) {
 }
 
 function mergeSortWithLogging(input: number[], trace: Msg[]): number[] {
-  const actor = `mergeSort([${input.join(' | ')}])`;
+  const actor = `mergeSort(${arrtostr(input)})`;
 
   if (input.length <= 1) {
-    trace.push({
-      type: 'output',
-      actor,
-      msg: 'nothing to sort | length = 1',
-    });
+    trace.push({ type: 'output', actor, msg: 'nothing to sort' });
+    trace.push({ type: 'return', actor, value: '' });
 
-    trace.push({
-      type: 'return',
-      actor,
-      value: '',
-    });
     return input;
   }
 
-  trace.push({
-    type: 'output',
-    actor,
-    msg: `splitting at index ${Math.ceil(input.length / 2)}`,
-  });
+  const midIdx = Math.ceil(input.length / 2);
+  trace.push({ type: 'output', actor, msg: `splitting at index ${midIdx}` });
 
   const listA = input.slice(0, Math.ceil(input.length / 2));
-  trace.push({ type: 'output', actor, msg: `List A = [${listA.join(' | ')}]` });
+  const listAString = arrtostr(listA);
+  trace.push({ type: 'output', actor, msg: `List A = ${listAString}` });
 
   const listB = input.slice(listA.length, input.length);
-  trace.push({ type: 'output', actor, msg: `List B = [${listB.join(' | ')}]` });
+  const listBString = arrtostr(listB);
+  trace.push({ type: 'output', actor, msg: `List B = ${listBString}` });
 
   trace.push({
     type: 'call',
     actor: actor,
-    callee: `mergeSort([${listA.join(' | ')}])`,
+    callee: `mergeSort(${listAString})`,
     arguments: 'Sorting List A',
   });
 
   const sortedListA = mergeSortWithLogging(listA, trace);
-
-  trace.push({
-    type: 'output',
-    actor,
-    msg: 'sorting A done',
-  });
+  trace.push({ type: 'output', actor, msg: 'sorting A done' });
 
   trace.push({
     type: 'call',
     actor: actor,
-    callee: `mergeSort([${listB.join(' - ')}])`,
+    callee: `mergeSort(${listBString})`,
     arguments: 'Sorting List B',
   });
 
   const sortedListB = mergeSortWithLogging(listB, trace);
 
-  trace.push({
-    type: 'output',
-    actor,
-    msg: 'sorting B done',
-  });
+  trace.push({ type: 'output', actor, msg: 'sorting B done' });
+
+  const sortedListAString = arrtostr(sortedListA);
+  const sortedListBString = arrtostr(sortedListB);
 
   trace.push({
     type: 'call',
     actor: actor,
-    callee: `sortedMerge( [ ${sortedListA.join('-')} - ${sortedListB.join(
-      '-'
-    )}] )`,
-    arguments: 'merging sorted lists, A = [] B = []',
+    callee: `mergeSortedLists(${sortedListAString} | ${sortedListBString})`,
+    arguments: `merging sorted lists | A = ${sortedListAString} B = ${sortedListBString}`,
   });
 
   const mergedLists = mergeSortedListsWithLogging(
@@ -107,7 +92,7 @@ function mergeSortWithLogging(input: number[], trace: Msg[]): number[] {
   trace.push({
     type: 'output',
     actor,
-    msg: `returning merge sorted list = [${mergedLists.join(' | ')}]`,
+    msg: `returning merge sorted list = ${arrtostr(mergedLists)}`,
   });
 
   trace.push({
@@ -123,8 +108,12 @@ function mergeSortedListsWithLogging(
   listB: number[],
   trace: Msg[]
 ): number[] {
-  const actor = `sortedMerge( [ ${listA.join('-')} - ${listB.join('-')}] )`;
+  // Needs to match callee in mergeSort
+  const listAString = arrtostr(listA);
+  const listBString = arrtostr(listB);
+  const actor = `mergeSortedLists(${listAString} | ${listBString})`;
   trace.push({ type: 'output', actor, msg: 'merging A & B' });
+
   const merged: number[] = [];
 
   while (listA.length && listB.length) {
@@ -135,8 +124,12 @@ function mergeSortedListsWithLogging(
   while (listA.length > 0) merged.push(listA.shift() as number);
   while (listB.length > 0) merged.push(listB.shift() as number);
 
-  trace.push({ type: 'return', actor, value: `Merged ${merged}` });
+  trace.push({ type: 'return', actor, value: `merged = ${arrtostr(merged)}` });
   return merged;
+}
+
+function arrtostr(numbers: number[]): string {
+  return `[${numbers.join(' - ')}]`;
 }
 
 export function tracedMergeSort(input: number[]) {

@@ -4,30 +4,18 @@ function factorialWithLogging(n: number, trace: Msg[]): number {
   const actor = `factorial(${n})`;
 
   if (n == 1) {
-    trace.push({
-      type: 'output',
-      actor: actor,
-      msg: 'is base case | n == 1',
-    });
+    trace.push({ type: 'output', actor: actor, msg: '1 == 1' });
 
-    trace.push({
-      type: 'return',
-      actor: actor,
-      value: '1',
-    });
+    trace.push({ type: 'return', actor: actor, value: '1' });
     return 1;
   }
 
-  trace.push({
-    type: 'output',
-    actor: actor,
-    msg: 'not base case | n != 1',
-  });
+  trace.push({ type: 'output', actor: actor, msg: `${n} != 1` });
 
   trace.push({
     type: 'output',
     actor: actor,
-    msg: `val = n * factorial(${n} - 1)`,
+    msg: `val = ${n} * factorial(${n} - 1)`,
   });
 
   trace.push({
@@ -41,14 +29,10 @@ function factorialWithLogging(n: number, trace: Msg[]): number {
   trace.push({
     type: 'output',
     actor: actor,
-    msg: `return ${n} * factorial(${n - 1}) | ${n} * ${val} = ${n * val}`,
+    msg: `${n} * ${val} = ${n * val}`,
   });
 
-  trace.push({
-    type: 'return',
-    actor: actor,
-    value: `${n * val}`,
-  });
+  trace.push({ type: 'return', actor: actor, value: `${n * val}` });
   return n * val;
 }
 

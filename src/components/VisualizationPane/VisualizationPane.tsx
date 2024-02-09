@@ -32,8 +32,7 @@ export default function VisualizationPane() {
     mermaid.contentLoaded();
 
     (async () => {
-      console.log('hi');
-
+      console.log({ diagram: `${diagram.split('\n')}` });
       const { svg } = await mermaid.render('mermaid-div', diagram);
 
       d3.select('.mermaid-div').html(svg);
@@ -51,7 +50,7 @@ export default function VisualizationPane() {
         inner.attr('transform', event.transform);
       });
 
-      svgEl.call(zoom);
+      svgEl.call(zoom as any);
     })();
   });
 
