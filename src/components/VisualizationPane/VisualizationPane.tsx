@@ -1,17 +1,9 @@
-import * as d3 from 'd3';
+import {
+  Excalidraw,
+  convertToExcalidrawElements,
+} from '@excalidraw/excalidraw';
 
-import { RootState } from '@/store';
-import mermaid from 'mermaid';
 import styled from 'styled-components';
-import { useEffect } from 'react';
-import { useSelector } from 'react-redux';
-
-mermaid.initialize({
-  startOnLoad: true,
-  theme: 'default',
-  securityLevel: 'loose',
-  fontFamily: 'monospace',
-});
 
 export default function VisualizationPane() {
   const VisualizationPanel = styled.div`
@@ -24,45 +16,76 @@ export default function VisualizationPane() {
     overflow: hidden;
   `;
 
-  const diagram = useSelector(
-    (state: RootState) => state.visualizationPane.diagram
-  );
-
-  useEffect(() => {
-    mermaid.contentLoaded();
-
-    (async () => {
-      console.log({ diagram: `${diagram.split('\n')}` });
-      const { svg } = await mermaid.render('mermaid-div', diagram);
-
-      d3.select('.mermaid-div').html(svg);
-
-      const svgEl = d3.select('svg');
-
-      svgEl
-        .style('width', '100%')
-        .style('height', '100%')
-        .style('max-width', '')
-        .html('<g>' + svgEl.html() + '</g>');
-
-      const inner = svgEl.select('g');
-      const zoom = d3.zoom().on('zoom', function (event) {
-        inner.attr('transform', event.transform);
-      });
-
-      svgEl.call(zoom as any);
-    })();
-  });
+  const elements = convertToExcalidrawElements([
+    {
+      id: 'rect1',
+      type: 'rectangle',
+      x: 0,
+      y: 0,
+      width: 250,
+      height: 100,
+      label: { text: 'Hi', textAlign: 'center', fontSize: 24 },
+    },
+    {
+      id: 'rect2',
+      type: 'rectangle',
+      x: 500,
+      y: 0,
+      width: 250,
+      height: 100,
+      label: { text: 'Hello', textAlign: 'center', fontSize: 24 },
+    },
+    {
+      type: 'arrow',
+      x: 250,
+      y: 50,
+      width: 250,
+      start: { id: 'rect1' },
+      end: { id: 'rect2' },
+      label: { text: 'Greeting' },
+      endArrowhead: 'triangle',
+    },
+    {
+      id: 'rect3',
+      type: 'rectangle',
+      x: 0,
+      y: 500,
+      width: 250,
+      height: 100,
+      label: { text: 'Yo', textAlign: 'center', fontSize: 24 },
+    },
+    {
+      type: 'line',
+      x: 125,
+      y: 100,
+      height: 400,
+      width: 1,
+      start: { id: 'rect1' },
+      end: { id: 'rect3' },
+      label: { text: 'Greeting' },
+    },
+    {
+      id: 'rect4',
+      type: 'rectangle',
+      x: 0,
+      y: 250,
+      width: 250,
+      height: 100,
+      backgroundColor: '#fff',
+      roundness: { type: 1 },
+      label: { text: 'Yo', textAlign: 'center', fontSize: 24 },
+    },
+  ]);
 
   return (
     <VisualizationPanel>
-      <div
-        style={{
-          height: '100%',
-          width: '100%',
+      <Excalidraw
+        initialData={{
+          elements,
+          appState: { zenModeEnabled: true },
+          scrollToContent: true,
         }}
-        className="mermaid-div"
-      ></div>
+      ></Excalidraw>
     </VisualizationPanel>
   );
 }
