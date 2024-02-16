@@ -3,7 +3,9 @@ import {
   convertToExcalidrawElements,
 } from '@excalidraw/excalidraw';
 
+import { RootState } from '@/store';
 import styled from 'styled-components';
+import { useSelector } from 'react-redux';
 
 export default function VisualizationPane() {
   const VisualizationPanel = styled.div`
@@ -16,64 +18,42 @@ export default function VisualizationPane() {
     overflow: hidden;
   `;
 
+  const diagramElements = useSelector(
+    (state: RootState) => state.visualizationPane.diagram
+  );
+
+  const width = 250;
+  const height = 100;
+  const colOffest = 175;
+
   const elements = convertToExcalidrawElements([
     {
       id: 'rect1',
       type: 'rectangle',
       x: 0,
       y: 0,
-      width: 250,
-      height: 100,
+      width,
+      height,
       label: { text: 'Hi', textAlign: 'center', fontSize: 24 },
     },
     {
       id: 'rect2',
       type: 'rectangle',
-      x: 500,
+      x: width + colOffest,
       y: 0,
-      width: 250,
-      height: 100,
-      label: { text: 'Hello', textAlign: 'center', fontSize: 24 },
+      width,
+      height,
     },
     {
+      id: 'line1',
       type: 'arrow',
-      x: 250,
-      y: 50,
-      width: 250,
+      x: width,
+      y: height / 2,
+      width: colOffest,
+      height: 1,
+      endArrowhead: 'triangle',
       start: { id: 'rect1' },
       end: { id: 'rect2' },
-      label: { text: 'Greeting' },
-      endArrowhead: 'triangle',
-    },
-    {
-      id: 'rect3',
-      type: 'rectangle',
-      x: 0,
-      y: 500,
-      width: 250,
-      height: 100,
-      label: { text: 'Yo', textAlign: 'center', fontSize: 24 },
-    },
-    {
-      type: 'line',
-      x: 125,
-      y: 100,
-      height: 400,
-      width: 1,
-      start: { id: 'rect1' },
-      end: { id: 'rect3' },
-      label: { text: 'Greeting' },
-    },
-    {
-      id: 'rect4',
-      type: 'rectangle',
-      x: 0,
-      y: 250,
-      width: 250,
-      height: 100,
-      backgroundColor: '#fff',
-      roundness: { type: 1 },
-      label: { text: 'Yo', textAlign: 'center', fontSize: 24 },
     },
   ]);
 
@@ -81,8 +61,8 @@ export default function VisualizationPane() {
     <VisualizationPanel>
       <Excalidraw
         initialData={{
-          elements,
-          appState: { zenModeEnabled: true },
+          elements: convertToExcalidrawElements(diagramElements),
+          appState: { zenModeEnabled: true, objectsSnapModeEnabled: true },
           scrollToContent: true,
         }}
       ></Excalidraw>

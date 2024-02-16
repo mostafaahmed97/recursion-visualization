@@ -1,43 +1,23 @@
-import { Msg } from '@/utils';
+import { Step } from '@/utils';
 
-function factorialWithLogging(n: number, trace: Msg[]): number {
-  const actor = `factorial(${n})`;
+function factorialWithLogging(n: number, trace: Step[]): number {
+  trace.push({ type: 'call', fnName: 'factorial', params: n.toString() });
 
   if (n == 1) {
-    trace.push({ type: 'output', actor: actor, msg: '1 == 1' });
-
-    trace.push({ type: 'return', actor: actor, value: '1' });
+    trace.push({ type: 'log', msg: `is base case` });
+    trace.push({ type: 'return', val: `1` });
     return 1;
   }
 
-  trace.push({ type: 'output', actor: actor, msg: `${n} != 1` });
-
-  trace.push({
-    type: 'output',
-    actor: actor,
-    msg: `val = ${n} * factorial(${n} - 1)`,
-  });
-
-  trace.push({
-    type: 'call',
-    actor: actor,
-    callee: `factorial(${n - 1})`,
-    arguments: `factorial(${n} - 1)`,
-  });
+  trace.push({ type: 'log', msg: `val = factorial(${n - 1})` });
   const val = factorialWithLogging(n - 1, trace);
 
-  trace.push({
-    type: 'output',
-    actor: actor,
-    msg: `${n} * ${val} = ${n * val}`,
-  });
-
-  trace.push({ type: 'return', actor: actor, value: `${n * val}` });
+  trace.push({ type: 'return', val: `${n * val}` });
   return n * val;
 }
 
-export function tracedFactorial(num: number): Msg[] {
-  const trace: Msg[] = [];
+export function tracedFactorial(num: number): Step[] {
+  const trace: Step[] = [];
   factorialWithLogging(num, trace);
   return trace;
 }

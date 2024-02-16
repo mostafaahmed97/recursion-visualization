@@ -1,16 +1,22 @@
-import { Msg, generateDiagram as diagramFromTrace } from '@/utils';
+import {
+  Msg,
+  generateDiagram as diagramFromTrace,
+  generateForExcalidraw,
+} from '@/utils';
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 
+import { ExcalidrawElementSkeleton } from '@excalidraw/excalidraw/types/data/transform';
 import { algorithms } from '@/algorithms';
+import { factorial } from '@/algorithms/fact';
 
 export interface VisualizationPaneState {
-  diagram: string;
+  diagram: ExcalidrawElementSkeleton[];
   steps: Msg[];
   currStepIdx: number;
 }
 
 const initialState: VisualizationPaneState = {
-  diagram: 'sequenceDiagram',
+  diagram: [],
   steps: [],
   currStepIdx: 0,
 };
@@ -23,17 +29,13 @@ export const visualizationPaneSlice = createSlice({
       state,
       action: PayloadAction<{ selectedAlgorithm: string; args: Object }>
     ) => {
-      console.log('Tracing', { action });
-      const selection = action.payload.selectedAlgorithm;
-      const algorithm = algorithms.find(a => a.name == selection);
+      const factorialTracing = algorithms[0].tracedFunc;
 
-      if (!algorithm) return state;
-      const args = action.payload.args;
+      const steps = factorialTracing(3);
+      console.log({ steps });
 
-      const trace = algorithm.tracedFunc(...Object.values(args));
-      const diagram = diagramFromTrace(trace);
-
-      state.steps = trace;
+      const diagram = generateForExcalidraw(steps);
+      console.log({ diagram });
       state.diagram = diagram;
     },
   },
