@@ -81,7 +81,7 @@ export function generateForExcalidraw(
           ...boxTemplate,
           x,
           y,
-          label: { text: actorName },
+          label: { text: actorName, fontSize: 24 },
         });
 
         callStackPositions.push({

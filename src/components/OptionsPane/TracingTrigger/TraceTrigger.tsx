@@ -21,6 +21,7 @@ export function TracingTrigger() {
     match(selectedAlgorithm)
       .with('Merge Sort', () => (args = mergeSortArgs))
       .with('Factorial', () => (args = factorialArgs))
+      .with('Depth First Search', () => (args = {}))
       .otherwise(() => (args = null));
 
     if (!args) return;

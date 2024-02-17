@@ -1,4 +1,4 @@
-import { Msg, generateDiagram } from '../utils';
+import { Step } from '../utils';
 
 type GraphNode = {
   id: number;
@@ -18,50 +18,70 @@ nodeA.right = nodeC;
 
 nodeB.left = nodeD;
 nodeB.right = nodeE;
-console.log({ nodeA });
 
-const trace: Msg[] = [];
+nodeC.left = nodeE;
 
-const done: GraphNode['id'][] = [];
-const visited: GraphNode[] = [];
+export function dfs(node: GraphNode, done: number[], visited: number[]) {
+  if (visited.includes(node.id)) return;
 
-function dfs(graph: GraphNode) {
-  const actor = `dfs-at-node-${graph.id}`;
+  visited.push(node.id);
 
-  trace.push({ type: 'output', actor, msg: 'Marking node as visited' });
-  visited.push(graph);
-
-  if (graph.left) {
-    console.log('going to left');
-
-    trace.push({ type: 'output', actor, msg: 'Going to left child' });
-    trace.push({
-      type: 'call',
-      actor: actor,
-      callee: `dfs-at-node-${graph.left.id}`,
-      arguments: 'left subgraph',
-    });
-    dfs(graph.left);
+  if (node.left) {
+    dfs(node.left, done, visited);
   }
 
-  if (graph.right) {
-    trace.push({ type: 'output', actor, msg: 'Going to right child' });
-    trace.push({
-      type: 'call',
-      actor: actor,
-      callee: `dfs-at-node-${graph.right.id}`,
-      arguments: 'right subgraph',
-    });
-    dfs(graph.right);
+  if (node.right) {
+    dfs(node.right, done, visited);
   }
 
-  trace.push({ type: 'output', actor, msg: 'Marking node as done' });
-  done.push(graph.id);
-
-  trace.push({ type: 'return', actor, value: 'returning from subgraph' });
+  done.push(node.id);
+  return done;
 }
 
-dfs(nodeA);
+console.log(dfs(nodeA, [], []));
 
-console.log(generateDiagram(trace));
-console.log({ done });
+function dfsWithLogging(
+  node: GraphNode,
+  done: number[],
+  visited: number[],
+  trace: Step[]
+) {
+  trace.push({
+    type: 'call',
+    fnName: 'dfs',
+    params: `node, [${done}], [${visited}]`,
+  });
+
+  if (visited.includes(node.id)) {
+    trace.push({ type: 'log', msg: 'node visited before' });
+    trace.push({ type: 'return', val: '' });
+    return;
+  }
+
+  trace.push({ type: 'log', msg: 'marking node as visited' });
+  visited.push(node.id);
+
+  if (node.left) {
+    trace.push({ type: 'log', msg: 'visiting left subtree' });
+    dfsWithLogging(node.left, done, visited, trace);
+  }
+
+  if (node.right) {
+    trace.push({ type: 'log', msg: 'visiting right subtree' });
+    dfsWithLogging(node.right, done, visited, trace);
+  }
+
+  trace.push({ type: 'log', msg: 'marking as done' });
+  done.push(node.id);
+
+  trace.push({ type: 'return', val: `done nodes = ${done.toString()}` });
+  return done;
+}
+
+export function tracedDfs() {
+  const trace: Step[] = [];
+
+  // Testing with dummy graph , WIP
+  dfsWithLogging(nodeA, [], [], trace);
+  return trace;
+}
