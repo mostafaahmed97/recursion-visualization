@@ -1,4 +1,4 @@
-import { Msg } from '../utils';
+import { Step } from '@/utils';
 
 export function mergeSort(input: number[]) {
   if (input.length <= 1) {
@@ -31,57 +31,32 @@ export function mergeSortedLists(listA: number[], listB: number[]) {
   return merged;
 }
 
-function mergeSortWithLogging(input: number[], trace: Msg[]): number[] {
-  const actor = `mergeSort(${arrtostr(input)})`;
+function mergeSortWithLogging(input: number[], trace: Step[]): number[] {
+  trace.push({ type: 'call', fnName: 'mergeSort', params: input.toString() });
 
   if (input.length <= 1) {
-    trace.push({ type: 'output', actor, msg: 'nothing to sort' });
-    trace.push({ type: 'return', actor, value: '' });
+    trace.push({ type: 'log', msg: 'nothing to sort' });
+    trace.push({ type: 'return', val: input.toString() });
 
     return input;
   }
 
   const midIdx = Math.ceil(input.length / 2);
-  trace.push({ type: 'output', actor, msg: `splitting at index ${midIdx}` });
+  trace.push({ type: 'log', msg: `splitting at index ${midIdx}` });
 
   const listA = input.slice(0, Math.ceil(input.length / 2));
   const listAString = arrtostr(listA);
-  trace.push({ type: 'output', actor, msg: `List A = ${listAString}` });
+  trace.push({ type: 'log', msg: `List A = ${listAString}` });
 
   const listB = input.slice(listA.length, input.length);
   const listBString = arrtostr(listB);
-  trace.push({ type: 'output', actor, msg: `List B = ${listBString}` });
-
-  trace.push({
-    type: 'call',
-    actor: actor,
-    callee: `mergeSort(${listAString})`,
-    arguments: 'Sorting List A',
-  });
+  trace.push({ type: 'log', msg: `List B = ${listBString}` });
 
   const sortedListA = mergeSortWithLogging(listA, trace);
-  trace.push({ type: 'output', actor, msg: 'sorting A done' });
-
-  trace.push({
-    type: 'call',
-    actor: actor,
-    callee: `mergeSort(${listBString})`,
-    arguments: 'Sorting List B',
-  });
+  trace.push({ type: 'log', msg: 'sorting A done' });
 
   const sortedListB = mergeSortWithLogging(listB, trace);
-
-  trace.push({ type: 'output', actor, msg: 'sorting B done' });
-
-  const sortedListAString = arrtostr(sortedListA);
-  const sortedListBString = arrtostr(sortedListB);
-
-  trace.push({
-    type: 'call',
-    actor: actor,
-    callee: `mergeSortedLists(${sortedListAString} | ${sortedListBString})`,
-    arguments: `merging sorted lists | A = ${sortedListAString} B = ${sortedListBString}`,
-  });
+  trace.push({ type: 'log', msg: 'sorting B done' });
 
   const mergedLists = mergeSortedListsWithLogging(
     sortedListA,
@@ -90,15 +65,13 @@ function mergeSortWithLogging(input: number[], trace: Msg[]): number[] {
   );
 
   trace.push({
-    type: 'output',
-    actor,
+    type: 'log',
     msg: `returning merge sorted list = ${arrtostr(mergedLists)}`,
   });
 
   trace.push({
     type: 'return',
-    actor,
-    value: '',
+    val: mergedLists.toString(),
   });
   return mergedLists;
 }
@@ -106,13 +79,15 @@ function mergeSortWithLogging(input: number[], trace: Msg[]): number[] {
 function mergeSortedListsWithLogging(
   listA: number[],
   listB: number[],
-  trace: Msg[]
+  trace: Step[]
 ): number[] {
   // Needs to match callee in mergeSort
-  const listAString = arrtostr(listA);
-  const listBString = arrtostr(listB);
-  const actor = `mergeSortedLists(${listAString} | ${listBString})`;
-  trace.push({ type: 'output', actor, msg: 'merging A & B' });
+
+  trace.push({
+    type: 'call',
+    fnName: 'mergeSortedLists',
+    params: `${listA.toString()} , ${listB.toString()}`,
+  });
 
   const merged: number[] = [];
 
@@ -124,7 +99,7 @@ function mergeSortedListsWithLogging(
   while (listA.length > 0) merged.push(listA.shift() as number);
   while (listB.length > 0) merged.push(listB.shift() as number);
 
-  trace.push({ type: 'return', actor, value: `merged = ${arrtostr(merged)}` });
+  trace.push({ type: 'return', val: `merged = ${arrtostr(merged)}` });
   return merged;
 }
 
@@ -133,7 +108,7 @@ function arrtostr(numbers: number[]): string {
 }
 
 export function tracedMergeSort(input: number[]) {
-  const trace: Msg[] = [];
+  const trace: Step[] = [];
   mergeSortWithLogging(input, trace);
   return trace;
 }

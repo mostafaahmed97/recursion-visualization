@@ -13,7 +13,9 @@ export const factorialSlice = createSlice({
       try {
         const n = parseInt(action.payload);
         state.args.n = n;
-      } catch (error) {}
+      } catch (error) {
+        console.log(error);
+      }
 
       return state;
     },
