@@ -38,8 +38,6 @@ export function dfs(node: GraphNode, done: number[], visited: number[]) {
   return done;
 }
 
-console.log(dfs(nodeA, [], []));
-
 function dfsWithLogging(
   node: GraphNode,
   done: number[],

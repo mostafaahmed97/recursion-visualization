@@ -9,6 +9,8 @@ function factorialWithLogging(n: number, trace: Step[]): number {
     return 1;
   }
 
+  trace.push({ type: 'log', msg: `not base case` });
+
   trace.push({ type: 'log', msg: `val = factorial(${n - 1})` });
   const val = factorialWithLogging(n - 1, trace);
 

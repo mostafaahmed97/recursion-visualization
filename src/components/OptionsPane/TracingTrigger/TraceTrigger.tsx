@@ -14,6 +14,7 @@ export function TracingTrigger() {
 
   const factorialArgs = useSelector((state: RootState) => state.factorial.args);
   const mergeSortArgs = useSelector((state: RootState) => state.mergeSort.args);
+  const fibonacciArgs = useSelector((state: RootState) => state.fibonacci.args);
 
   function onTriggerHandler() {
     let args;
@@ -21,7 +22,7 @@ export function TracingTrigger() {
     match(selectedAlgorithm)
       .with('Merge Sort', () => (args = mergeSortArgs))
       .with('Factorial', () => (args = factorialArgs))
-      .with('Depth First Search', () => (args = {}))
+      .with('Fibonacci', () => (args = fibonacciArgs))
       .otherwise(() => (args = null));
 
     if (!args) return;

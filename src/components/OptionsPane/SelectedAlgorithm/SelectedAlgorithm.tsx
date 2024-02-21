@@ -1,4 +1,8 @@
-import { FactorialOptions, MergeSortOptions } from './AlgorithmOptions';
+import {
+  FactorialOptions,
+  FibonacciOptions,
+  MergeSortOptions,
+} from './AlgorithmOptions';
 
 import { CodeDisplay } from '.';
 import { Separator } from '@/components/ui/separator';
@@ -23,6 +27,7 @@ export function SelectedAlgorithmDisplay() {
           {match(currentAlgorithm)
             .with('Factorial', () => <FactorialOptions></FactorialOptions>)
             .with('Merge Sort', () => <MergeSortOptions></MergeSortOptions>)
+            .with('Fibonacci', () => <FibonacciOptions></FibonacciOptions>)
             .otherwise(() => (
               <p>Select an algorithm</p>
             ))}

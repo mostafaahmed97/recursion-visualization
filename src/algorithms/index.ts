@@ -1,5 +1,5 @@
-import { dfs, tracedDfs } from './dfs';
 import { factorial, tracedFactorial } from './fact';
+import { fibonacci, tracedFibonacci } from './fibonacii';
 import { mergeSort, mergeSortedLists, tracedMergeSort } from './mergesort';
 
 export const algorithms = [
@@ -18,14 +18,14 @@ export const algorithms = [
     tracedFunc: tracedMergeSort,
   },
   {
-    name: 'Depth First Search',
-    displayCode: dfs.toString(),
-    tracedFunc: tracedDfs,
+    name: 'Fibonacci',
+    displayCode: fibonacci.toString(),
+    tracedFunc: tracedFibonacci,
   },
 ] as const;
 
 export const availableAlgorithms = [
   'Factorial',
   'Merge Sort',
-  'Depth First Search',
+  'Fibonacci',
 ] as const;
