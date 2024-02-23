@@ -2,6 +2,7 @@ import { Step } from '@/utils';
 
 export function fibonacci(n: number): number {
   if (n < 2) {
+    // base case
     return n;
   }
 
@@ -12,19 +13,19 @@ export function fibonacciWithLogging(n: number, trace: Step[]): number {
   trace.push({ type: 'call', fnName: 'fibonacci', params: n.toString() });
 
   if (n < 2) {
-    trace.push({ type: 'log', msg: `is base case` });
-    trace.push({ type: 'return', val: n.toString() });
+    trace.push({ type: 'log', msg: `base case` });
+    trace.push({ type: 'log', msg: `return ${n}` });
 
+    trace.push({ type: 'return', val: n.toString() });
     return n;
   }
 
-  trace.push({ type: 'log', msg: `computing fibonacci(${n} - 1)` });
   const fibMinusOne = fibonacciWithLogging(n - 1, trace);
-
-  trace.push({ type: 'log', msg: `computing fibonacci(${n} - 2)` });
   const fibMinusTwo = fibonacciWithLogging(n - 2, trace);
 
+  trace.push({ type: 'log', msg: `return ${fibMinusOne} + ${fibMinusTwo}` });
   trace.push({ type: 'return', val: `${fibMinusOne + fibMinusTwo}` });
+
   return fibMinusTwo + fibMinusOne;
 }
 

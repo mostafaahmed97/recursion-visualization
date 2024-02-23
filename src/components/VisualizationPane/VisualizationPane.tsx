@@ -11,7 +11,7 @@ export default function VisualizationPane() {
   const VisualizationPanel = styled.div`
     flex-grow: 0;
     flex-shrink: 0;
-    flex-basis: calc(60%);
+    flex-basis: calc(65%);
     padding: 1rem;
     border-radius: 6px;
     background-color: #fafafa;
@@ -27,7 +27,10 @@ export default function VisualizationPane() {
       <Excalidraw
         initialData={{
           elements: convertToExcalidrawElements(diagramElements),
-          appState: { zenModeEnabled: true, objectsSnapModeEnabled: true },
+          appState: {
+            zenModeEnabled: true,
+            objectsSnapModeEnabled: true,
+          },
           scrollToContent: true,
         }}
       ></Excalidraw>

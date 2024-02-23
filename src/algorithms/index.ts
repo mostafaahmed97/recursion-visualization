@@ -1,6 +1,6 @@
-import { factorial, tracedFactorial } from './fact';
-import { fibonacci, tracedFibonacci } from './fibonacii';
-import { mergeSort, mergeSortedLists, tracedMergeSort } from './mergesort';
+import { factorial, tracedFactorial } from './factorial';
+import { fibonacci, tracedFibonacci } from './fibonacci';
+import { merge, mergeSort, tracedMergeSort } from './mergesort';
 
 export const algorithms = [
   {
@@ -11,9 +11,9 @@ export const algorithms = [
   {
     name: 'Merge Sort',
     displayCode: `
-  ${mergeSort.toString()}
-      
-  ${mergeSortedLists.toString()}
+    ${mergeSort.toString()}
+
+  ${merge.toString()}
     `,
     tracedFunc: tracedMergeSort,
   },

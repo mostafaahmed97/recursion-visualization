@@ -18,7 +18,7 @@ export type Log = {
 
 export type FunctionReturn = {
   type: 'return';
-  val: string;
+  val?: string;
 };
 
 export type Step = FunctionCall | Log | FunctionReturn;
@@ -28,11 +28,11 @@ type ActorInfo = { name: string; x: number; y: number; drawnAtStep: number };
 export function generateForExcalidraw(
   trace: Step[]
 ): ExcalidrawElementSkeleton[] {
-  const actorWidth = 250;
+  const actorWidth = 425;
   const actorHeight = 100;
 
-  const verticalOffset = actorHeight + actorHeight * 0.5;
-  const horizontalOffset = actorWidth + actorWidth * 1.25;
+  const verticalOffset = actorHeight + actorHeight * 0.4;
+  const horizontalOffset = actorWidth + actorWidth * 0.75;
 
   let drawnStepsCtr = 0;
   let depthInStack = 0;
@@ -42,7 +42,13 @@ export function generateForExcalidraw(
 
   const boxTemplate: Pick<
     ValidContainer,
-    'type' | 'width' | 'height' | 'backgroundColor' | 'roundness' | 'fillStyle'
+    | 'type'
+    | 'width'
+    | 'height'
+    | 'backgroundColor'
+    | 'roundness'
+    | 'fillStyle'
+    | 'label'
   > = {
     type: 'rectangle',
     width: actorWidth,
@@ -50,6 +56,7 @@ export function generateForExcalidraw(
     backgroundColor: '#fff',
     roundness: { value: 1, type: 2 },
     fillStyle: 'solid',
+    label: { text: '', fontSize: 28 },
   };
 
   for (const step of trace) {
@@ -81,7 +88,7 @@ export function generateForExcalidraw(
           ...boxTemplate,
           x,
           y,
-          label: { text: actorName },
+          label: { ...boxTemplate.label, text: actorName },
         });
 
         callStackPositions.push({
@@ -99,7 +106,7 @@ export function generateForExcalidraw(
           ...boxTemplate,
           x,
           y,
-          label: { text: matched.msg },
+          label: { ...boxTemplate.label, text: matched.msg },
         });
       })
       .with({ type: 'return' }, matched => {
@@ -126,7 +133,7 @@ export function generateForExcalidraw(
           ...boxTemplate,
           x,
           y,
-          label: { text: invocationStart?.name || '' },
+          label: { ...boxTemplate.label, text: invocationStart?.name || '' },
         });
 
         // Draw return arrow only if we're at least 1 call deep
@@ -139,7 +146,7 @@ export function generateForExcalidraw(
             width: -(horizontalOffset - actorWidth / 2),
             startArrowhead: null,
             endArrowhead: 'triangle',
-            label: { text: matched.val },
+            label: { ...boxTemplate.label, text: matched.val || '' },
           });
 
         depthInStack -= 1;
