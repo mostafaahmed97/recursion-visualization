@@ -13,7 +13,7 @@ const initialState: FactorialOptions = {
 };
 
 export const fibonacciSlice = createSlice({
-  name: 'Fibonacci Optiosn',
+  name: 'Fibonacci Options',
   initialState,
   reducers: {
     updateN: (state, action: PayloadAction<string>) => {

@@ -5,7 +5,7 @@ import { RootState } from '@/store';
 import { updateN } from './fibonacciOptionsSlice';
 
 export function FibonacciOptions() {
-  const n = useSelector((state: RootState) => state.factorial.args.n);
+  const n = useSelector((state: RootState) => state.fibonacci.args.n);
   const dispatch = useDispatch();
 
   return (
