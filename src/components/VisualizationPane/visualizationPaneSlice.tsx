@@ -30,10 +30,13 @@ export const visualizationPaneSlice = createSlice({
       if (!algorithm) return state;
       const args = action.payload.args;
 
+      // @ts-expect-error: Disabling TS args to tracedFunc are dynamic per the algorithm type
       const trace = algorithm.tracedFunc(...Object.values(args));
       const diagram = generateForExcalidraw(trace);
 
       state.steps = trace;
+
+      // @ts-expect-error: Can't get the types right :(
       state.diagram = diagram;
     },
   },
