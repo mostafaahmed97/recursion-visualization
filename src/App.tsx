@@ -1,6 +1,7 @@
 import './App.css';
 import '../app/globals.css';
 
+import { Analytics } from '@vercel/analytics/react';
 import OptionsPane from './components/OptionsPane/OptionsPane';
 import VisualizationPane from './components/VisualizationPane/VisualizationPane';
 import styled from 'styled-components';
@@ -20,6 +21,8 @@ function App() {
     <Wrapper>
       <OptionsPane></OptionsPane>
       <VisualizationPane></VisualizationPane>
+
+      <Analytics></Analytics>
     </Wrapper>
   );
 }
