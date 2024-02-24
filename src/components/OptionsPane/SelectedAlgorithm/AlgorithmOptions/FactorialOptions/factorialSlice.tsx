@@ -4,9 +4,7 @@ export const factorialSlice = createSlice({
   name: 'Factorial Options',
   initialState: {
     rawInput: '3',
-    args: {
-      n: 3,
-    },
+    args: { n: 3 },
   },
   reducers: {
     updateN: (state, action: PayloadAction<string>) => {

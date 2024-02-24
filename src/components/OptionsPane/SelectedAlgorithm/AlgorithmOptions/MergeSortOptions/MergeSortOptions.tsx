@@ -19,6 +19,7 @@ export function MergeSortOptions() {
       <Input
         value={val}
         onChange={event => dispatch(updateNumberList(event.target.value))}
+        placeholder="Ex: 21,13,99"
       ></Input>
     </>
   );

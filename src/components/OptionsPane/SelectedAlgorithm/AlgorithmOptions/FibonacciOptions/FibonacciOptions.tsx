@@ -14,6 +14,8 @@ export function FibonacciOptions() {
       <Input
         value={n}
         onChange={event => dispatch(updateN(event.target.value))}
+        type="number"
+        placeholder="3"
       ></Input>
     </>
   );
