@@ -24,7 +24,7 @@ export function tracedFactorial(num: number): Step[] {
   return trace;
 }
 
-export function factorial(n: number): number {
+export const factorial = `function factorial(n) {
   if (n == 1) {
     // base case
     return 1;
@@ -32,3 +32,4 @@ export function factorial(n: number): number {
 
   return n * factorial(n - 1);
 }
+`;

@@ -1,6 +1,6 @@
 import { Step } from '@/utils';
 
-export function mergeSort(input: number[]) {
+export const mergeSort = `function mergeSort(input) {
   if (input.length <= 1) {
     // base case
     return input;
@@ -18,19 +18,25 @@ export function mergeSort(input: number[]) {
   return mergedLists;
 }
 
-export function merge(listA: number[], listB: number[]) {
-  const merged: number[] = [];
+function merge(listA, listB) {
+  const merged = [];
 
   while (listA.length && listB.length) {
-    if (listA[0] <= listB[0]) merged.push(listA.shift() as number);
-    else merged.push(listB.shift() as number);
+    if (listA[0] <= listB[0]) 
+      merged.push(listA.shift());
+    else 
+      merged.push(listB.shift());
   }
 
-  while (listA.length > 0) merged.push(listA.shift() as number);
-  while (listB.length > 0) merged.push(listB.shift() as number);
+  while (listA.length > 0) 
+    merged.push(listA.shift());
+  
+  while (listB.length > 0) 
+    merged.push(listB.shift());
 
   return merged;
 }
+`;
 
 function mergeSortWithLogging(input: number[], trace: Step[]): number[] {
   trace.push({ type: 'call', fnName: 'mergeSort', params: arrtostr(input) });

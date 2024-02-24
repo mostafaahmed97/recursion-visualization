@@ -1,6 +1,6 @@
 import { Step } from '@/utils';
 
-export function fibonacci(n: number): number {
+export const fibonacci = `function fibonacci(n) {
   if (n < 2) {
     // base case
     return n;
@@ -8,7 +8,7 @@ export function fibonacci(n: number): number {
 
   return fibonacci(n - 2) + fibonacci(n - 1);
 }
-
+`;
 export function fibonacciWithLogging(n: number, trace: Step[]): number {
   trace.push({ type: 'call', fnName: 'fibonacci', params: n.toString() });
 
