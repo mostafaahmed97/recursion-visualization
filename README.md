@@ -1,30 +1,39 @@
-# React + TypeScript + Vite
+# Recursion Visualizer
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A simple web app that draws sequence diagrams for recursive algorithms using Excalidraw.
 
-Currently, two official plugins are available:
+![](./docs/rec-viz.png)
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## 🔧 How it works
 
-## Expanding the ESLint configuration
+The app runs modified versions of recursive algorithms that log a trace of how the functions execute.
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+The trace consists of the following events :
+- Function entry
+- Function return
+- Output during execution
 
-- Configure the top-level `parserOptions` property like this:
+This trace is then used to build a sequence diagram using [Excalidraw elements](https://docs.excalidraw.com/docs/@excalidraw/excalidraw/api/excalidraw-element-skeleton).
 
-```js
-export default {
-  // other rules...
-  parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-    project: ['./tsconfig.json', './tsconfig.node.json'],
-    tsconfigRootDir: __dirname,
-  },
-}
-```
+### Available algorithms
 
-- Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
-- Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
+- Factorial
+- Fibonacci
+- Merge Sort
+
+## ⚙️ Running locally
+
+- Clone repository
+- `npm install`
+- `npm run dev`
+
+## 💻 Built with
+
+- [React](https://react.dev/)
+- [Redux Toolkit](https://redux-toolkit.js.org/)
+- [shadcn/ui](https://ui.shadcn.com/)
+- [Excalidraw](https://github.com/excalidraw/excalidraw)
+
+## 📕 Acknowledgements
+
+This project was inspired by the work of [brpapa](https://github.com/brpapa) on [Recursion Tree Visualizer](https://github.com/brpapa/recursion-tree-visualizer)
